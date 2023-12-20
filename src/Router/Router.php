@@ -2,20 +2,23 @@
 
 namespace App\Router;
 
-class Router {
+class Router
+{
     private array $routes = [
         'GET' => [],
-        'POST' => []
+        'POST' => [],
     ];
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->initRoutes();
     }
 
-    public function dispatch(string $uri, string $method): void {
+    public function dispatch(string $uri, string $method): void
+    {
         $route = $this->findRoute($uri, $method);
 
-        if(! $route) {
+        if (! $route) {
             $this->notFound();
         }
 
@@ -23,30 +26,33 @@ class Router {
             [$controller, $action] = $route->getAction();
 
             $controller = new $controller();
-            
+
             call_user_func([$controller, $action]);
         } else {
             $route->getAction()();
         }
     }
 
-    private function notFound(): void {
+    private function notFound(): void
+    {
         echo '404 | Not Found';
         exit;
     }
 
-    private function findRoute(string $uri, string $method): Route|false {
-        if(!isset($this->routes[$method][$uri])) {
+    private function findRoute(string $uri, string $method): Route|false
+    {
+        if (! isset($this->routes[$method][$uri])) {
             return false;
         }
 
         return $this->routes[$method][$uri];
     }
 
-    private function initRoutes() {
+    private function initRoutes()
+    {
         $routes = $this->getRoutes();
 
-        foreach($routes as $route) {
+        foreach ($routes as $route) {
             $this->routes[$route->getMethod()][$route->getUri()] = $route;
         }
     }
@@ -54,7 +60,8 @@ class Router {
     /**
      * @return Route[]
      */
-    private function getRoutes() {
+    private function getRoutes()
+    {
         return require_once APP_PATH.'/config/routes.php';
     }
 }

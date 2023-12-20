@@ -2,9 +2,10 @@
 
 namespace App\Controllers;
 
-class MovieController {
+class MovieController
+{
     public function index(): void
     {
-        include_once APP_PATH . '/views/pages/movie.php';
+        include_once APP_PATH.'/views/pages/movie.php';
     }
 }
