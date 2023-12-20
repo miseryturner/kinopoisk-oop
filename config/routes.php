@@ -1,11 +1,10 @@
 <?php
 
-return [
-    '/home' => function () {
-        include_once APP_PATH.'/views/pages/home.php';
-    },
+use App\Controllers\HomeController;
+use App\Controllers\MovieController;
+use App\Router\Route;
 
-    '/movies' => function () {
-        include_once APP_PATH.'/views/pages/movies.php';
-    }
+return [
+    Route::get('/home', [HomeController::class, 'index']),
+    Route::get('/movies', [MovieController::class, 'index']),
 ];
